@@ -13,7 +13,25 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Danh sách các shortlink</h5>
+                        @php
+                            $curl = curl_init();
 
+                            curl_setopt_array($curl, [
+                                CURLOPT_URL => 'https://api-ssl.bitly.com/v4/bitlinks/bit.ly/3QNwJWE/clicks?',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'GET',
+                                CURLOPT_HTTPHEADER => ['Authorization: Bearer b0e4a16e9433c720eacf9ffae42091cb64c1fd43'],
+                            ]);
+
+                            $response = curl_exec($curl);
+                            curl_close($curl);
+                            $data = json_decode($response);
+                        @endphp
                         <div id="fb-root"></div>
                         <script async defer crossorigin="anonymous"
                             src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v14.0&appId=615532730010827&autoLogAppEvents=1"
@@ -65,6 +83,19 @@
                                         </td>
                                     </tr>
                                 @endforeach--}}
+                                @foreach ($data->link_clicks as $key)
+                                    <tr>
+                                        <td>{{ $key->date }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ $key->clicks }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

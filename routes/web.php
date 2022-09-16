@@ -105,11 +105,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /* BITRIX24 - IT - SUPPORT */
     Route::match(['get', 'post'], '/ticket24', 'Ticket24\Ticket24Controller@home')->name('ticket24.index');
     Route::match(['get', 'post'], '/ticket24/setting', 'Ticket24\Ticket24Controller@setting')->name('ticket24.setting');
+
+    Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
+
 });
 
 //Auth::routes();
 
-//Test adsadsa
 
 /*
 

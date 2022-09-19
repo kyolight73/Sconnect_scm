@@ -2,20 +2,21 @@
 
 namespace App;
 
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Response;
 
 class Utils {
-	
+
 	public static function replaceQuot($input) {
 		return str_replace("'", "\\'", str_replace('"', '\\"', $input));
 	}
-	
+
 	public static function nullToEmpty($input) {
 		if (empty($input)) $input = '';
 		return $input;
 	}
-	
+
 	public static function createBreadcrumb($arr_item) {
 	    $first_item = $arr_item[0];
 	    unset($arr_item[0]);
@@ -27,12 +28,12 @@ class Utils {
 		$html .= '</ul>';
 		return $html;
 	}
-	
+
 	public static function is_youtube_link($url) {
 	    return preg_match('/(?:https?:\/\/)?(?:www.)?(?:youtube.com|youtu.be)\//m', $url);
 	}
-		
-	
+
+
 	/*
 	* Hàm này gen ra html danh sách prefix phòng ban trong table
 	*/
@@ -53,7 +54,7 @@ class Utils {
 		}
 		return $html;
 	}
-	
+
 	/*
 	* Hàm này gen ra html danh sách chức vụ trong table
 	*/
@@ -76,7 +77,7 @@ class Utils {
 		}
 		return $html;
 	}
-	
+
 	/*
 	* Hàm này gen ra html danh sách phòng ban phụ ở trang Nhân viên
 	*/
@@ -87,10 +88,10 @@ class Utils {
 			$child_prefixes = $child->prefixes;
 			$total_staffs = $child->total_staffs;
 			if (!empty($manager)) $total_staffs--;
-			
+
 			$html .= '<div><i class="fas fa-briefcase" style="font-size: 12px; margin-right: 6px;"></i>'
 				. '<a href="/staff?dept_id='.$child->id.'">'. (!empty($child_prefixes) ? $child_prefixes->name : '').' '.$child->name.'</a>'
-				. ' <small>('.$total_staffs.' nhân viên) (Người quản lý - </small>' . (!empty($manager) ? '<span class="link-underline-hover cursor-hand text-color1" data-toggle="modal" data-target="#modal-staff-info" data-staffid="'.$manager->id.'">'.$manager->family_name.' '.$manager->given_name.'</span>' : '') 
+				. ' <small>('.$total_staffs.' nhân viên) (Người quản lý - </small>' . (!empty($manager) ? '<span class="link-underline-hover cursor-hand text-color1" data-toggle="modal" data-target="#modal-staff-info" data-staffid="'.$manager->id.'">'.$manager->family_name.' '.$manager->given_name.'</span>' : '')
 				. ')</div>';
 		}
 		return $html;
@@ -101,8 +102,8 @@ class Utils {
 	*/
 	public static function buildDeptTree($dept, $level) {
 		if (empty($dept)) return '';
-		
-		$manager = $dept->manager;		
+
+		$manager = $dept->manager;
 		$prefix_name = empty($dept->prefixes) ? '' : htmlspecialchars($dept->prefixes->name) . ' ';
 		$prefix_id = empty($dept->prefixes) ? 0 : $dept->prefixes->id;
 		$dept_name = htmlspecialchars( $dept->name);
@@ -114,8 +115,8 @@ class Utils {
 				$parent_prefix = htmlspecialchars($dpp->name);
 			}
 		}
-		
-		$htmlManager = '<div class="structure-boss-block cursor-hand link-underline-hover" data-toggle="modal" data-target="#modal-delegate" data-deptname="'.$dept_name.'" data-deptid="'.$dept->id.'" data-prefixname="'.$prefix_name.'"><div>Chưa giao quản lý</div><div><i class="fas fa-user-cog"></i> Giao quyền</div></div>';		
+
+		$htmlManager = '<div class="structure-boss-block cursor-hand link-underline-hover" data-toggle="modal" data-target="#modal-delegate" data-deptname="'.$dept_name.'" data-deptid="'.$dept->id.'" data-prefixname="'.$prefix_name.'"><div>Chưa giao quản lý</div><div><i class="fas fa-user-cog"></i> Giao quyền</div></div>';
 
 		if (!empty($manager)) {
 			$title = $manager->title;
@@ -127,7 +128,7 @@ class Utils {
 				. '<span class="structure-manager">' . (!empty($title) ? $title->name : '') . '</span>'
 				. '</div>';
 		}
-		
+
 		$html = '<li>'
 			. '<code>'
 			. '<div class="'.($level == 0 ? 'dept-title1' : 'dept-title2').' line">'
@@ -149,7 +150,7 @@ class Utils {
 			. $htmlManager
 			. '<div style="font-size: 13px; text-align: center; padding-top: 15px;">'.$dept->total_staffs.' nhân viên</div></div>'
 			. '</code>';
-		
+
 		$deptChildren = $dept->children;
 		if(!empty($deptChildren) && count($deptChildren) > 0) {
 			$html .= '<ul>';
@@ -158,26 +159,26 @@ class Utils {
 			}
 			$html .= '</ul>';
 		}
-		
+
 		$html .= '</li>';
 		return $html;
 	}
-	
-	
+
+
 	/*
 	 * Hàm này gen ra html danh sách nhân viên chưa thuộc phòng ban nào ở trang Nhân viên
 	 */
 	public static function buildStaffListNoneDept($staff_list) {
 	    $html = '';
 	    if (!empty ($staff_list) && count($staff_list) > 0) {
-	        
+
 	        $html .= '<div class="col-md-12"><div class="card"><div class="card-body"><h5>Nhân viên chưa thuộc phòng ban nào</h5>';
-	        
+
 	        foreach($staff_list as $staff) {
 	            $msg_status = $staff->status == 1 ? 'Đang làm việc' : 'Đang ngừng làm việc';
 	            $ic_status = $staff->status == 1 ? 'fas fa-toggle-on' : 'fas fa-toggle-off';
 	            $color_status = $staff->status == 1 ? 'style="color: #38B235"' : 'style="color: #666666"';
-	            
+
 	            $html .= '<div class="row" style="padding: 24px 0px 10px 0px; border-bottom: 1px solid #cccccc">'
 	                . '<div class="col-md-5">'
 	                . '<a href="#" class="dept-manager-avatar user-default-avatar"'
@@ -186,7 +187,7 @@ class Utils {
                 $staff_title = $staff->title;
                 $html .= '<div class="title text-blue">'
                     . '<span class="link-underline-hover cursor-hand" data-toggle="modal" data-target="#modal-staff-info" data-staffid="'.$staff->id.'">' . $staff->family_name . ' ' . $staff->given_name . '</span></div>'
-	                . '<div class="alias">' . (!empty($staff_title) ? $staff_title->name : '') 
+	                . '<div class="alias">' . (!empty($staff_title) ? $staff_title->name : '')
 					. (!empty($staff->permission) ? ' - ' . Constant::STAFF_GROUPS[$staff->permission] : '')
 					. '</div>'
                     . '<div style="alias"><span style="font-size: 80%;"><i class="'.$ic_status.'" '.$color_status.'></i> ' . $msg_status . '</span></div>'
@@ -198,7 +199,7 @@ class Utils {
                     . '<div class="col-md-3" style="position:relative;">';
                 $dept_name = '';
                 $dept_id = 0;
-	                                                                
+
                 $dept = $staff->parent;
                 if (!empty($dept)) {
                     $dept_id = $dept->id;
@@ -208,7 +209,7 @@ class Utils {
 
                 $val_status = $staff->status == 1 ? 0 : 1;
                 $action_status = $staff->status == 1 ? 'Tạm khoá' : 'Mở khoá';
-	                                                                
+
                 $html .= '<div style="float: left; padding-top: 10px;"><a href="/staff?dept_id=' . $dept_id . '">' . $dept_name . '</a></div>'
                     .'<div style="float: right; padding-top: 6px;">'
                     .'<a href="javascript: void(0);" data-toggle="dropdown" aria-expanded="true" class="circle-vert">'
@@ -220,15 +221,15 @@ class Utils {
                     . '<div class="dropdown-divider"></div>'
                     . '<div class="dropdown-item cursor-hand color-danger" data-toggle="modal" data-target="#modal-delete-staff" data-staffid="'.$staff->id.'"><i class="far fa-trash-alt ic24" style="color:#ff5648!important"></i> Xoá nhân viên</div>'
                     . '</div>'
-                    .'</div> </div></div>';	                                                                                                            
+                    .'</div> </div></div>';
 	        }
-	        
+
 	        $html .= '</div></div></div>';
 	    }
-	    
+
 	    return $html;
 	}
-	
+
 	/*
 	* Hàm này gen ra html danh sách nhân viên ở trang Nhân viên
 	*/
@@ -239,7 +240,7 @@ class Utils {
 				$msg_status = $staff->status == 1 ? 'Đang làm việc' : 'Đang ngừng làm việc';
 				$ic_status = $staff->status == 1 ? 'fas fa-toggle-on' : 'fas fa-toggle-off';
 				$color_status = $staff->status == 1 ? 'style="color: #38B235"' : 'style="color: #666666"';
-				
+
 				$html .= '<div class="row" style="padding: 24px 0px 10px 0px; border-bottom: 1px solid #cccccc">'
 					. '<div class="col-md-5">'
 					. '<a href="#" class="dept-manager-avatar user-default-avatar"'
@@ -248,8 +249,8 @@ class Utils {
 				$staff_title = $staff->title;
 				$html .= '<div class="title text-blue">'
 					. '<span class="link-underline-hover cursor-hand" data-toggle="modal" data-target="#modal-staff-info" data-staffid="'.$staff->id.'">' . $staff->family_name . ' ' . $staff->given_name . '</span></div>'
-					. '<div class="alias">' . (!empty($staff_title) ? $staff_title->name : '') 
-					. (!empty($staff->permission) ? ' - ' . Constant::STAFF_GROUPS[$staff->permission] : '')
+					. '<div class="alias">' . (!empty($staff_title) ? $staff_title->name : '')
+					. (!empty($staff->permission) ? ' - ' . (new Role())->getRole($staff->permission)->name : '')
 					. '</div>'
 					. '<div style="alias"><span style="font-size: 80%;"><i class="'.$ic_status.'" '.$color_status.'></i> ' . $msg_status . '</span></div>'
 					. '</div></div>'
@@ -260,19 +261,19 @@ class Utils {
 					. '<div class="col-md-3" style="position:relative;">';
 				$dept_name = '';
 				$dept_id = 0;
-				
-				$dept = $staff->parent; 
+
+				$dept = $staff->parent;
 				if (!empty($dept)) {
 					$dept_id = $dept->id;
 					$dept_prefix = $dept->prefixes;
 					if (!empty($dept_prefix)) $dept_name = $dept_prefix->name . ' ' . $dept->name;
 				}
-				
-				
+
+
 				$val_status = $staff->status == 1 ? 0 : 1;
 				$action_status = $staff->status == 1 ? 'Tạm khoá' : 'Mở khoá';
-				
-				$html .= 
+
+				$html .=
 					'<div style="float: left; padding-top: 10px;"><a href="/staff?dept_id=' . $dept_id . '">' . $dept_name . '</a></div>'
 					.'<div style="float: right; padding-top: 6px;">'
 					.'<a href="javascript: void(0);" data-toggle="dropdown" aria-expanded="true" class="circle-vert">'
@@ -285,27 +286,27 @@ class Utils {
 						. '<div class="dropdown-item cursor-hand color-danger" data-toggle="modal" data-target="#modal-delete-staff" data-staffid="'.$staff->id.'"><i class="far fa-trash-alt ic24" style="color:#ff5648!important"></i> Xoá nhân viên</div>'
 						. '</div>'
 					.'</div> </div></div>';
-				
+
 			}
 		} else {
 			$html = '<i>(Không có nhân viên)</i>';
 		}
-		
+
 		return $html;
 	}
-	
+
 	public static function loadDeptTreeForTransfer($dept_node, $staff_dept_id) {
 		if (empty($dept_node)) return '';
 		$dept_prefixes = $dept_node->prefixes;
 		$dept_prefix_name = '';
 		if (!empty($dept_prefixes)) $dept_prefix_name = $dept_prefixes->name . ' ';
-		
+
 		$checked = $dept_node->id == $staff_dept_id ? ' checked' : '';
-				
+
 		$html = '<li><div class="custom-control custom-radio">'
-				.'<input class="custom-control-input" data-deptid="'.$dept_node->id.'" data-staffid="'.'" type="radio" id="dept-radio-'.$dept_node->id.'" name="dept-radio" value="'.$dept_node->id.'"'.$checked.'/> ' 
+				.'<input class="custom-control-input" data-deptid="'.$dept_node->id.'" data-staffid="'.'" type="radio" id="dept-radio-'.$dept_node->id.'" name="dept-radio" value="'.$dept_node->id.'"'.$checked.'/> '
 				.'<label for="dept-radio-'.$dept_node->id.'" class="custom-control-label">'. $dept_prefix_name.$dept_node->name . '</label></div>';
-		
+
 		$dept_children = $dept_node->children;
 		if ($dept_children != null && count($dept_children) > 0) {
 			$html .= '<ul>';
@@ -317,12 +318,12 @@ class Utils {
 		$html .= '</li>';
 		return $html;
 	}
-	
+
 	/*
-	 * 
+	 *
 	 * */
 	public static function buildTopicOptionList($node, $level, $selected_value = 0) {
-	    
+
 	    if (empty($node)) return '';
 	    $pad = ''; $tab = '';
 	    if ($level > 0) {
@@ -331,19 +332,19 @@ class Utils {
 	        }
 	        $tab = '&#124;--';
 	    }
-	    
+
 	    $html = '<option value="'.$node->id.'"' . ($node->id == $selected_value ? ' selected' : '') . '>'.$pad.$tab.$node->name.'</option>';
-	    
+
 	    $children = $node->children;
 	    if (!empty($children)) {
 	        foreach ($children as $item) {
 	            $html .= Utils::buildTopicOptionList($item, $level + 1, $selected_value);
 	        }
 	    }
-	    
+
 	    return $html;
 	}
-	
+
 	public static function getDepartmentName() {
 	    $dept_name = '';
 	    $dept = Auth::user()->parent;
@@ -363,12 +364,12 @@ class Utils {
 	    }
 	    return 0;
 	}
-	
+
 	public static function startsWith ($string, $startString) {
 	    $len = strlen($startString);
 	    return (substr($string, 0, $len) === $startString);
 	}
-	
+
 	public static function endsWith($string, $endString) {
 	    $len = strlen($endString);
 	    if ($len == 0) {
@@ -377,7 +378,7 @@ class Utils {
 	    return (substr($string, -$len) === $endString);
 	}
 
-	public static function download($url, $file_name) {    
+	public static function download($url, $file_name) {
 		return Response::download(public_path(). $url, $file_name);
 	}
 }

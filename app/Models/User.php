@@ -26,7 +26,7 @@ class User extends Authenticatable
     	'picture',
     	'user_token'
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,19 +45,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     public function parent() {
     	return $this->belongsTo(Department::class, 'department_id');
     }
-	
+
     public function title() {
     	return $this->belongsTo(Title::class, 'position');
     }
-    
+
     /*
      * Lấy danh sách toàn bộ nhân viên của phòng ban cũng như của các phòng ban con.
      * $staff_group = product | qtk | mkt ?
-     * */ 
+     * */
     public static function getAllStaffInner($dept_id, $permission = null) {
         $staff_list = array();
         $dept_ids = Department::getAllChildrenId($dept_id);
@@ -66,9 +66,25 @@ class User extends Authenticatable
             if (!empty($permission)) {
                 $staff_list = $staff_list->where('permission', $permission);
             }
-            
+
             $staff_list = $staff_list->get();
         }
         return $staff_list;
     }
+    public function roles(){
+        return $this->belongsToMany(Role::class, 'role_user','user_id','role_id');
+    }
+
+    public function checkPermissionAccess($permissionCheck){
+        $roles = auth()->user()->roles;
+        foreach ($roles as $role){
+            $permissions = $role->permissions;
+            if ($permissions->contains('key_code',$permissionCheck)){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 }

@@ -108,6 +108,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
+    /* Roles */
+    Route::get('/roles', 'RoleController@index')->name('roles');
+    Route::get('/roles/edit/{id}', 'RoleController@edit')->name('roles.edit');
+    Route::post('/roles/update/{id}', 'RoleController@update')->name('roles.update');
+
 });
 
 //Auth::routes();

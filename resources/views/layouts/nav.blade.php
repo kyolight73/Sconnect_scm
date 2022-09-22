@@ -27,7 +27,7 @@
                                         class='fas fa-code-branch ic24'></i> Phòng ban / Chức danh</a></li>
                             <li><a href="/staff" class="dropdown-item text-color2"><i class='fas fa-users ic24'></i>
                                     Nhân viên</a></li>
-                            <li><a href="/config" class="dropdown-item text-color2"><i class='fas fa-cogs ic24'></i>
+                            <li><a href="/roles" class="dropdown-item text-color2"><i class='fas fa-cogs ic24'></i>
                                     Phân quyền</a></li>
                         </ul>
                     </li>
@@ -105,7 +105,7 @@
                                             }
                                             $pers = '';
                                             if (!empty(Auth::user()->permission) && Auth::user()->permission !== '-') {
-                                                $pers = ' (' . \App\Constant::STAFF_GROUPS[Auth::user()->permission] . ').';
+                                                $pers = ' (' . (new \App\Models\Role())->getRole(Auth::user()->permission)->name ?? '' . ').' ?? '';
                                             }
                                         @endphp
                                         <small>

@@ -19,7 +19,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     /* ROUTE FOR DEPARTMENT */
-    Route::get('/department', 'DepartmentController@index');
+    Route::get('/department', 'DepartmentController@index')->middleware('can:department');
     Route::post('/department/add', 'DepartmentController@addDepartment');
     Route::post('/department/addsub', 'DepartmentController@addSubDepartment');
     Route::post('/department/update', 'DepartmentController@updateDepartment');
@@ -28,7 +28,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/department/list-for-transfer/{staff_id}', 'DepartmentController@loadDeptTreeForTransfer');
 
     /* ROUTE FOR USER */
-    Route::get('/staff', 'StaffController@index');
+    Route::get('/staff', 'StaffController@index')->middleware('can:staff');
     Route::post('/staff/add', 'StaffController@addStaff');
     Route::post('/staff/add-in-dept', 'StaffController@addStaffInDept');
     Route::post('/staff/update-in-dept', 'StaffController@updateStaffInDept');
@@ -42,7 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/staff/delete-staff/{staff_id}', 'StaffController@deleteStaff');
 
     /* ROUTE FOR GENERAL SETTING */
-    Route::get('/setting', 'SettingController@index');
+    Route::get('/setting', 'SettingController@index')->middleware('can:setting');
     Route::post('/setting/add-prefix', 'SettingController@addDeptPrefix');
     Route::post('/setting/save-prefix', 'SettingController@saveDeptPrefix');
     Route::get('/setting/delete-prefix-{id}', 'SettingController@deleteDeptPrefix');
@@ -51,32 +51,31 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/setting/delete-title-{id}', 'SettingController@deleteTitle');
 
     /* ROUTE FOR CONFIG */
-    Route::get('/config', 'ConfigController@index');
+    Route::get('/config', 'ConfigController@index')->middleware('can:config');
 
     /* ROUTE FOR MEDIA */
-    Route::get('/platform', 'PlatformController@index');
+    Route::get('/platform', 'PlatformController@index')->middleware('can:platform');
     Route::post('/platform/save', 'PlatformController@savePlatform');
     Route::get('/platform/delete/{id}', 'PlatformController@deletePlatform');
-
-    Route::get('/origin-product', 'OriginController@index');
+    Route::get('/origin-product', 'OriginController@index')->middleware('can:origin-product');
     Route::post('/origin-product/save-folder', 'OriginController@saveFolder');
     Route::post('/origin-product/save-file', 'OriginController@saveFile');
     Route::get('/origin-product/delete-folder/{id}', 'OriginController@deleteFolder');
     Route::get('/origin-product/delete-file/{id}', 'OriginController@deleteFile');
 
-    Route::get('/topic', 'TopicController@index');
+    Route::get('/topic', 'TopicController@index')->middleware('can:topic');
     Route::post('/topic/save', 'TopicController@saveTopic');
     Route::get('/topic/delete/{id}', 'TopicController@deleteTopic');
 
-    Route::get('/channel', 'ChannelController@index');
+    Route::get('/channel', 'ChannelController@index')->middleware('can:channel');
     Route::post('/channel/save', 'ChannelController@saveChannel');
     Route::get('/channel/delete', 'ChannelController@deleteChannel');
-    Route::get('/channel-type', 'ChannelController@channelType');
+    Route::get('/channel-type', 'ChannelController@channelType')->middleware('can:channel-type');
     Route::post('/channel-type/save', 'ChannelController@saveChannelType');
     Route::get('/channel-type/delete/{ct_id}', 'ChannelController@deleteChannelType');
     Route::get('/channel/collect/{channel_id}', 'ChannelController@collectChannelInfo');
 
-    Route::get('/video', 'VideoController@index');
+    Route::get('/video', 'VideoController@index')->middleware('can:video');
     Route::get('/video/detail', 'VideoController@detail');
     Route::get('/video-file/load/{video_id}/{current_folder_id}/{current_dept_id}', 'VideoController@loadFileForVideo');
     Route::get('/video-file/assign/{video_id}/{file_id}', 'VideoController@assignFileForVideo');
@@ -109,9 +108,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
     /* Roles */
-    Route::get('/roles', 'RoleController@index')->name('roles');
+    Route::get('/roles', 'RoleController@index')->name('roles')->middleware('can:roles');
+    Route::post('/roles/add', 'RoleController@add')->name('roles.add');
     Route::get('/roles/edit/{id}', 'RoleController@edit')->name('roles.edit');
     Route::post('/roles/update/{id}', 'RoleController@update')->name('roles.update');
+    Route::get('/roles/delete-{id}', 'RoleController@delete')->name('roles.delete');
+
+    /*Permissions*/
+    Route::get('/permission/create', 'PermissionController@create')->name('permissions.create')->middleware('can:permission');
+    Route::post('/store', 'PermissionController@store')->name('permissions.store');
 
 });
 

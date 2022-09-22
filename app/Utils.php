@@ -188,7 +188,7 @@ class Utils {
                 $html .= '<div class="title text-blue">'
                     . '<span class="link-underline-hover cursor-hand" data-toggle="modal" data-target="#modal-staff-info" data-staffid="'.$staff->id.'">' . $staff->family_name . ' ' . $staff->given_name . '</span></div>'
 	                . '<div class="alias">' . (!empty($staff_title) ? $staff_title->name : '')
-					. (!empty($staff->permission) ? ' - ' . Constant::STAFF_GROUPS[$staff->permission] : '')
+					. (!empty($staff->permission) ? ' - ' . (new Role())->getRole($staff->permission)->name : '')
 					. '</div>'
                     . '<div style="alias"><span style="font-size: 80%;"><i class="'.$ic_status.'" '.$color_status.'></i> ' . $msg_status . '</span></div>'
                     . '</div></div>'

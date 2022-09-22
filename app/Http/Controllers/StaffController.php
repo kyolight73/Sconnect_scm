@@ -22,16 +22,16 @@ class StaffController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    private $role;
-    public function __construct(Role $role)
-    {
-        $this -> role = $role;
-    }
+//    private $role;
+//    public function __construct(Role $role)
+//    {
+//        $this -> role = $role;
+//    }
 
     public function index(Request $request) {
     	$dept_id = $request->input('dept_id');
     	$dept = Department::where('id', $dept_id)->first();
-        $role = $this->role->all();
+        $role = (new Role())->all();
     	if (empty($dept)) {
     		$dept = Department::where('parent_id', 0)->first();
     	}
@@ -327,7 +327,7 @@ class StaffController extends Controller {
 					. '<span class="link-underline-hover cursor-hand" data-toggle="modal" data-target="#modal-staff-info" data-staffid="'.$user->id.'">' . $user->family_name . ' ' . $user->given_name . '</span>&nbsp;'
 				. '</div>'
 				. '<div class="alias">' . (!empty($manager_title) ? $manager_title->name : '')
-				. (!empty($user->permission) ? ' - ' . \App\Constant::STAFF_GROUPS[$user->permission] : '')
+				.  (!empty($staff->permission) ? ' - ' . (new Role())->getRole($staff->permission)->name : '')
 				. '</div>'
 				. '<div style="alias"><span style="font-size: 80%;"><i class="'.$ic_status.'" '.$color_status.'></i> '.$msg_status.'</span></div>'
 			. '</div></div><div class="col-md-7"><div style="float: left;">'

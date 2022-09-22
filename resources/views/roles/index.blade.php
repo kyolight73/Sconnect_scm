@@ -5,8 +5,8 @@
 @section('content')
     <div class="container">
         <ul class="breadcrumb">
-            <li class="breadcrumb-item"><i class="fas fa-home" aria-hidden="true"></i> Admin</li>
-            <li class="breadcrumb-item">Nhóm</li>
+            <li class="breadcrumb-item"><i class="fas fa-home" aria-hidden="true"></i> Hệ thống</li>
+            <li class="breadcrumb-item">Phân quyền</li>
         </ul>
         <div class="row">
             <div class="col-md-12">
@@ -14,8 +14,10 @@
                     <div class="card-header">
                         <h5>Danh sách các nhóm</h5>
                         <div class="row" style="padding-top: 30px;margin-bottom: 10px">
-                            <div class="col-sm-4 heading3 bold">
-                                {{--                                    <a href="{{ route('permissions.create')}}" class="btn btn-default">Permission</a>--}}
+                            <div class="col-sm-4">
+                                @can('permission')
+								<a href="{{ route('permissions.create')}}" class="cursor-hand btn-round text-decoration-none" style="font-size: 14px"><i class="fas fa-plus"></i> Permission</a>
+                                @endcan
                             </div>
                             <div class="col-sm-8" align="right">
 							<span class="cursor-hand btn-round" data-toggle="modal" data-target="#modal-add-roles"

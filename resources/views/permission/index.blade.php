@@ -5,8 +5,8 @@
 @section('content')
     <div class="container">
         <ul class="breadcrumb">
-            <li class="breadcrumb-item"><i class="fas fa-home" aria-hidden="true"></i>Admin</li>
-            <li class="breadcrumb-item">Roles</li>
+            <li class="breadcrumb-item"><i class="fas fa-home" aria-hidden="true"></i> Admin</li>
+            <li class="breadcrumb-item">Permission</li>
         </ul>
         <div class="row">
             <form action="{{ route('permissions.store') }}" method="post">

@@ -14,11 +14,27 @@ class FanpageController extends Controller
      */
     public function index()
     {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://graph.facebook.com/v15.0/me/accounts?access_token=EAAIv0uG4TMsBACQrKZC4N3ZCQbvv3V8K8QBL0ZBgHC6J6yJFmUR6Fe78oZAAE2O9ERfPLkViyTsJH6se4749z8u8z0PTZAZBtAZC2ep9y9KBoPEx3x9ZB6ZCzKoa7DqKoAvZBTDTwE41zxqJ7hAMOZAByyZBRPZA9NHI7I6G3CYpYWUeZCUgZDZD',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $all_pages = json_decode($response);
+
         $fanpage = Fanpage::get();
 
-
-
-        return view('fanpage.index', compact('fanpage'));
+        return view('fanpage.index', compact('fanpage', 'all_pages'));
     }
 
     /**
@@ -52,7 +68,7 @@ class FanpageController extends Controller
      */
     public function show($id)
     {
-        //
+        echo $id;
     }
 
     /**

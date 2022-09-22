@@ -80,7 +80,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/video-file/load/{video_id}/{current_folder_id}/{current_dept_id}', 'VideoController@loadFileForVideo');
     Route::get('/video-file/assign/{video_id}/{file_id}', 'VideoController@assignFileForVideo');
 
+    //Fanpage
     Route::resource('fanpage', FanpageController::class);
+    // Route::get('page-information/{id}', 'DepartmentController@deleteDepartment');
+
+    Route::resource('shortlink', ShortlinkController::class);
 
     Route::get('/promotion', 'PromotionController@index');
     Route::get('/promotion/get-ticket-by-id/{id}', 'TicketController@getTicket');
@@ -105,7 +109,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::match(['get', 'post'], '/ticket24', 'Ticket24\Ticket24Controller@home')->name('ticket24.index');
     Route::match(['get', 'post'], '/ticket24/setting', 'Ticket24\Ticket24Controller@setting')->name('ticket24.setting');
 
-    Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
+
+    // Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
     /* Roles */
     Route::get('/roles', 'RoleController@index')->name('roles')->middleware('can:roles');

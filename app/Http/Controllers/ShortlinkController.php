@@ -13,7 +13,29 @@ class ShortlinkController extends Controller
      */
     public function index()
     {
-        return view('shortlink.index');
+        //Lấy tổng các Group của một user
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api-ssl.bitly.com/v4/groups?organization_guid=Om9g1H2PX0f',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer b0e4a16e9433c720eacf9ffae42091cb64c1fd43'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $all_groups = json_decode($response);
+
+        return view('shortlink.index', compact('all_groups'));
     }
 
     /**

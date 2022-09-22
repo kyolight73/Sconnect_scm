@@ -56,7 +56,8 @@
                         <a id="ddMenuMarketing" href="#" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" class="nav-link dropdown-toggle text-color1">Marketing</a>
                         <ul aria-labelledby="ddMenuMarketing" class="dropdown-menu border-0 shadow">
-                            <li><a href="{{route('mkt.shortlink')}}" class="dropdown-item text-color2"><i class="fas fa-link ic24"></i>
+                            <li><a href="{{ route('shortlink.index') }}" class="dropdown-item text-color2"><i
+                                        class="fas fa-link ic24"></i>
                                     Shortlink</a></li>
                             <li><a href="/promotion" class="dropdown-item text-color2"><i
                                         class="fas fa-bullhorn ic24"></i> Quảng cáo</a></li>
@@ -135,7 +136,7 @@
     </nav>
 </div>
 
-<?php /* ?> ?> ?>
+<?php /* ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?>
 <nav class="main-header navbar navbar-expand-md navbar-light" style="margin-left: 0px!important; padding-left: 20px;">
     <!-- Left navbar links -->
     <ul class="navbar-nav">

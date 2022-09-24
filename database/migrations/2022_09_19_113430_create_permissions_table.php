@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('display_name');
             $table->integer('parent_id')->default(0) ;
+            $table->string('key_code')->nullable();
             $table->timestamps();
         });
     }

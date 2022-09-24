@@ -15,9 +15,7 @@
                         <h5>Danh sách các nhóm</h5>
                         <div class="row" style="padding-top: 30px;margin-bottom: 10px">
                             <div class="col-sm-4">
-                                @can('permission')
-								<a href="{{ route('permissions.create')}}" class="cursor-hand btn-round text-decoration-none" style="font-size: 14px"><i class="fas fa-plus"></i> Permission</a>
-                                @endcan
+{{--								<a href="{{ route('permissions.create')}}" class="cursor-hand btn-round text-decoration-none" style="font-size: 14px"><i class="fas fa-plus"></i> Permission</a>--}}
                             </div>
                             <div class="col-sm-8" align="right">
 							<span class="cursor-hand btn-round" data-toggle="modal" data-target="#modal-add-roles"
@@ -45,7 +43,7 @@
                                             </div>
                                             <div class="row margin-top">
                                                 <div class="col-12 input-group">
-                                                    <input id="display_name" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" value="{{ old('display_name') }}" required placeholder="Mô tả tên nhóm"/>
+                                                    <textarea id="display_name" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" required placeholder="Mô tả tên nhóm">{{ old('display_name') }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer justify-content-between">
@@ -68,10 +66,10 @@
                         <table class="table table-hover" border="0">
                             <thead>
                             <tr style="background-color: #dee2e6">
-                                <th>#</th>
-                                <th>Tên Nhóm</th>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 15%">Tên Nhóm</th>
                                 <th>Mô tả</th>
-                                <th class="text-center">Acition</th>
+                                <th class="text-center" style="width: 40%">Acition</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -79,13 +77,14 @@
                             @foreach($roles as $role)
 
                                 <tr>
-                                    <th scope="row">{{ $role->id}}</th>
-                                    <td>{{ $role->name ?? ''}}</td>
+                                    <th scope="row" style="width: 5%">{{ $role->id}}</th>
+                                    <td style="width: 15%">{{ $role->name ?? ''}}</td>
                                     <td>{{ $role->display_name ?? ''}}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('roles.edit', ['id' => $role->id]) }}" class="btn btn-default cursor-hand text-decoration-none" style="font-size: 14px"><i class="far fa-edit ic24"></i>Phân quyền</a>
+                                    <td class="text-right" style="width: 40%">
+                                        <a href="{{ route('roles.edit', ['id' => $role->id]) }}" class="btn btn-default cursor-hand text-decoration-none" style="font-size: 14px;padding-bottom: 0"><i class="fas fa-user-cog ic24"></i>Phân quyền</a>
+                                        <a class="btn btn-default cursor-hand text-decoration-none" style="font-size: 14px;padding-bottom: 0" data-toggle="modal" data-target="#modal-edit-dept" data-name="{{$role->name}}" data-displayname="{{$role->display_name}}" data-deptid="{{$role->id}}"><i class="far fa-edit ic24"></i>Sửa nhóm</a>
 
-                                        <a  class="btn btn-default cursor-hand text-decoration-none" id="delete-roles-id" data-toggle="modal" data-target="#modal-delete-roles" data-deptname="{{$role->name}}" data-deptid="{{$role->id}}" style="font-size: 14px"><i class="far fa-trash-alt ic24" style="color:#ff5648!important"></i>Xoá nhóm</a>
+                                        <a  class="btn btn-default cursor-hand text-decoration-none" data-toggle="modal" data-target="#modal-delete-roles" data-deptname="{{$role->name}}" data-deptid="{{$role->id}}" style="font-size: 14px;padding-bottom: 0"><i class="far fa-trash-alt ic24" style="color:#ff5648!important"></i>Xoá nhóm</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -98,6 +97,41 @@
                             @endif
                             </tbody>
                         </table>
+
+                        <!--  Model edit -->
+                        <div class="modal fade" id="modal-edit-dept">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-color1">Sửa thông tin nhóm</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" id="dept-id" value="0" />
+                                        <div class="row margin-top">
+                                            <div class="col-12 input-group">
+                                                <input id="role-name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="" required placeholder="Nhập tên nhóm"/>
+                                            </div>
+                                        </div>
+                                        <div class="row margin-top">
+                                            <div class="col-12 input-group">
+                                                <textarea id="role-display-name" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" required placeholder="Mô tả tên nhóm"></textarea>
+                                            </div>
+                                        </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                        <button type="button" class="btn btn-primary" id="btn-update-dept">Lưu thay đổi</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+
+                </div>
+                        <!--  Model delete-->
                         <div class="modal fade" id="modal-delete-roles">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -119,8 +153,6 @@
                             </div>
                             <!-- /.modal-dialog -->
                         </div>
-                    </div>
-                </div>
                 <!-- /.card -->
             </div>
         </div>
@@ -163,6 +195,44 @@
                 });
                 /**/
             });
+
+            $('#modal-edit-dept').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var modal = $(this);
+                modal.find('#role-name').val(button.data('name'));
+                modal.find('#role-display-name').val(button.data('displayname'));
+                modal.find('#dept-id').val(button.data('deptid'));
+
+            });
+
+            var deptId = 0;
+            $('#btn-update-dept').on('click', function() {
+                var modal = $('#modal-edit-dept');
+                // update department ...
+                var dept_id = modal.find('#dept-id').val();
+                var name = modal.find('#role-name').val();
+                var display_name = modal.find('#role-display-name').val();
+
+                /* jquery post data	*/
+                $.ajax({
+                    url: "/roles/change-" + deptId,
+                    method: "POST",
+                    data: {id: dept_id, 'name': name, 'display_name': display_name},
+                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    success: function (jsResult) {
+                        if (jsResult.status === 'success') {
+                            toastr.success(jsResult.message);
+                            $('#department-structure').html(jsResult.body);
+                            modal.modal('hide');
+                        } else {
+                            toastr.error(jsResult.message);
+                        }
+                        location.reload();
+                    }
+                });
+                /**/
+            });
+
             var deptIdToDelete = 0;
 
             $('#modal-delete-roles').on('show.bs.modal', function (event) {

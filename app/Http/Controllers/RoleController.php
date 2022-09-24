@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use function PHPUnit\Framework\isNull;
 
 class RoleController extends Controller
 {
@@ -65,9 +66,31 @@ class RoleController extends Controller
         return response()->json(['status' => $status, 'message' => $message, 'body' => $body]);
     }
 
+    public function change(Request $request) {
+        $status = "success";
+        $body = '';
+        $message = 'Cập nhật thành công';
+        try {
+            $id = $request->input('id');
+            if (!is_numeric($id)) $id = 0;
+            $name = $request->input('name');
+            $display_name = $request->input('display_name');
+
+                $dept = Role::find($id);
+                $dept->name = $name;
+                $dept->display_name = $display_name;
+                $dept->save();
+
+        } catch (\Exception $e) {
+            $message = "Cập nhật không thành công! \nLỗi: ".$e->getMessage();
+        }
+
+        return response()->json(['status'=>$status, 'message'=>$message, 'body'=>$body]);
+    }
+
     public function edit($id)
     {
-        $permissionsParent = $this->permission->where('parent_id', 0)->get();
+        $permissionsParent = $this->permission->where('parent_id',0)->get();
         $role = $this->role->find($id);
         $permissionsChecked = $role->permissions;
         return view('roles.edit', compact('permissionsParent', 'role', 'permissionsChecked'));
@@ -76,11 +99,6 @@ class RoleController extends Controller
     public function update($id, Request $request)
     {
         $role = $this->role->find($id);
-        $role->update([
-            'name' => $request->name,
-            'display_name' => $request->display_name,
-        ]);
-
         $role->permissions()->sync($request->permission_id);
         return redirect()->route('roles');
     }

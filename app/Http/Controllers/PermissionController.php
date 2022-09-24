@@ -14,13 +14,14 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        $permission = Permission::create([
+        $permission = Permission::updateOrCreate([
             'name' => $request->module_parent,
             'display_name' => $request->module_parent,
             'parent_id' => 0
         ]);
+
         foreach ($request->module_childrent as $value) {
-            Permission::create([
+            Permission::updateOrCreate([
                 'name' => $value,
                 'display_name' => $value,
                 'parent_id' => $permission->id,

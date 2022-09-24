@@ -113,14 +113,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     // Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
     /* Roles */
-    Route::get('/roles', 'RoleController@index')->name('roles')->middleware('can:roles');
+    Route::get('/roles', 'RoleController@index')->name('roles');
     Route::post('/roles/add', 'RoleController@add')->name('roles.add');
+    Route::post('/roles/change-{id}', 'RoleController@change')->name('roles.change');
     Route::get('/roles/edit/{id}', 'RoleController@edit')->name('roles.edit');
     Route::post('/roles/update/{id}', 'RoleController@update')->name('roles.update');
     Route::get('/roles/delete-{id}', 'RoleController@delete')->name('roles.delete');
 
     /*Permissions*/
-    Route::get('/permission/create', 'PermissionController@create')->name('permissions.create')->middleware('can:permission');
+    Route::get('/permission/create', 'PermissionController@create')->name('permissions.create');
     Route::post('/store', 'PermissionController@store')->name('permissions.store');
 
 });

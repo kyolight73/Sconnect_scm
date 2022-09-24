@@ -34,12 +34,4 @@ class AdminPolicy
     {
         return $user->checkPermissionAccess('phan-quyen');
     }
-    public function roles(User $user)
-    {
-        return $user->checkPermissionAccess('roles');
-    }
-    public function permission(User $user)
-    {
-        return $user->checkPermissionAccess('permission');
-    }
 }

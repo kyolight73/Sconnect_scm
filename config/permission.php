@@ -1,10 +1,9 @@
 <?php
 return [
     'table_module'=>[
-        'Admin',
-        'SX',
-        'QTK',
-        'MKT',
+        'Hệ thống',
+        'Media',
+        'Marketing',
     ],
     'module_childrent'=>[
         'Trang chủ',
@@ -21,6 +20,5 @@ return [
         'Shortlink',
         'Quảng cáo',
         'Bình Luận',
-
     ]
 ];

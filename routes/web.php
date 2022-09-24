@@ -51,7 +51,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/setting/delete-title-{id}', 'SettingController@deleteTitle');
 
     /* ROUTE FOR CONFIG */
-    Route::get('/config', 'ConfigController@index')->middleware('can:config');
+    Route::get('/config', 'ConfigController@index');
 
     /* ROUTE FOR MEDIA */
     Route::get('/platform', 'PlatformController@index')->middleware('can:platform');
@@ -113,7 +113,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     // Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
     /* Roles */
-    Route::get('/roles', 'RoleController@index')->name('roles');
+    Route::get('/roles', 'RoleController@index')->name('roles')->middleware('can:roles');
     Route::post('/roles/add', 'RoleController@add')->name('roles.add');
     Route::post('/roles/change-{id}', 'RoleController@change')->name('roles.change');
     Route::get('/roles/edit/{id}', 'RoleController@edit')->name('roles.edit');

@@ -24,7 +24,7 @@ class PermissionGateAndPolicyAccess{
         Gate::define('department','App\Policies\AdminPolicy@department');
         Gate::define('setting','App\Policies\AdminPolicy@setting');
         Gate::define('staff','App\Policies\AdminPolicy@staff');
-        Gate::define('config','App\Policies\AdminPolicy@config');
+        Gate::define('roles','App\Policies\AdminPolicy@roles');
     }
 
 

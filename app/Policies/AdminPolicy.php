@@ -30,7 +30,7 @@ class AdminPolicy
     {
         return $user->checkPermissionAccess('nhan-vien');
     }
-    public function config(User $user)
+    public function roles(User $user)
     {
         return $user->checkPermissionAccess('phan-quyen');
     }

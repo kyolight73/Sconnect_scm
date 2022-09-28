@@ -84,9 +84,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::resource('fanpage', FanpageController::class);
     // Route::get('page-information/{id}', 'DepartmentController@deleteDepartment');
 
-    Route::resource('shortlink', ShortlinkController::class);
+    Route::resource('shortlink', ShortlinkController::class)->middleware('can:shortlink');
 
-    Route::get('/promotion', 'PromotionController@index');
+    Route::get('/promotion', 'PromotionController@index')->middleware('can:promotion');
     Route::get('/promotion/get-ticket-by-id/{id}', 'TicketController@getTicket');
     Route::match(['get', 'post'], '/ticket/save', 'TicketController@saveTicket');
     Route::match(['get', 'post'], '/comment/save', 'TicketController@saveComment');
@@ -112,7 +112,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     // Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
-    /* Roles */
+   // Roles
     Route::get('/roles', 'RoleController@index')->name('roles')->middleware('can:roles');
     Route::post('/roles/add', 'RoleController@add')->name('roles.add');
     Route::post('/roles/change-{id}', 'RoleController@change')->name('roles.change');
@@ -120,7 +120,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::post('/roles/update/{id}', 'RoleController@update')->name('roles.update');
     Route::get('/roles/delete-{id}', 'RoleController@delete')->name('roles.delete');
 
-    /*Permissions*/
+   // Permissions
     Route::get('/permission/create', 'PermissionController@create')->name('permissions.create');
     Route::post('/store', 'PermissionController@store')->name('permissions.store');
 

@@ -4,22 +4,22 @@
 	{!! App\Utils::createBreadcrumb(array('Hệ thống', 'Công ty')) !!}
 	<div class="row">
 		<div class="col-md-12">
-			<div class="card">		
-				<div class="card-body scroll-x" align="center" style="min-height: 300px;">				
+			<div class="card">
+				<div class="card-body scroll-x" align="center" style="min-height: 300px;">
 				<ul class="tree" id="department-structure">
 				@if (empty($root_dept))
 				<li>
     				<div class="text-gray" style="font-size: 24px;">Chưa có phòng ban</div>
-    				<div style="font-size: 24px; padding: 20px;"><i class="fas fa-folder-plus"></i> 
+    				<div style="font-size: 24px; padding: 20px;"><i class="fas fa-folder-plus"></i>
     					<span class="link-underline-hover cursor-hand text-color1" id="add-first-dept"
-    					data-toggle="modal" data-target="#modal-add-dept" data-deptname="Không có" data-deptid="0" 
+    					data-toggle="modal" data-target="#modal-add-dept" data-deptname="Không có" data-deptid="0"
     					data-parentname="Không có" data-prefixid="0" data-prefixname="" data-parentprefix="">Thêm phòng ban mới</span>
     				</div>
 				</li>
-				@else		
+				@else
 				{!! App\Utils::buildDeptTree($root_dept, 0) !!}
-				@endif		
-				</ul>				
+				@endif
+				</ul>
 				</div>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
-			</div>			
+			</div>
 			<div class="modal-body">
 				<div style="font-weight: 700;">Thuộc: <span id="parent-dept-is"></span></div>
 				<input type="hidden" id="parent-id" value="0" />
@@ -47,14 +47,14 @@
 						@endforeach
 					</select>
 				</div>
-				<div style="padding-top: 10px;"><input id="dept-name" type="text" 
-					class="form-control" name="dept-name" value="" required 
+				<div style="padding-top: 10px;"><input id="dept-name" type="text"
+					class="form-control" name="dept-name" value="" required
 					autofocus placeholder="Tên phòng ban"/></div>
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 				<button type="button" class="btn btn-primary" id="btn-save-dept">Lưu thay đổi</button>
-			</div>			
+			</div>
 		</div>
 		<!-- /.modal-content -->
 	</div>
@@ -73,9 +73,9 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<p style="font-weight: 700;">Thuộc: <span id="dept-is"></span></p>				
+				<p style="font-weight: 700;">Thuộc: <span id="dept-is"></span></p>
 				<div class="margin-top" id="staff-choose-list">
-					Đang tải danh sách nhân viên...					
+					Đang tải danh sách nhân viên...
 				</div>
 			</div>
 			<div class="modal-footer justify-content-right">
@@ -96,9 +96,9 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
-			</div>			
+			</div>
 			<div class="modal-body">
-				<input type="hidden" id="dept-id" value="0" />				
+				<input type="hidden" id="dept-id" value="0" />
 				<div style="font-weight: 700;" id="dept-parent">Thuộc: <span id="parent-dept-is"></span></div>
 				<div style="padding-top: 10px;">
 					<select id="prefix-list" class="form-control">
@@ -108,14 +108,14 @@
 						@endforeach
 					</select>
 				</div>
-				<div style="padding-top: 10px;"><input id="dept-name" type="text" 
-					class="form-control" name="dept-name" value="" required 
+				<div style="padding-top: 10px;"><input id="dept-name" type="text"
+					class="form-control" name="dept-name" value="" required
 					autofocus placeholder="Tên phòng ban"/></div>
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 				<button type="button" class="btn btn-primary" id="btn-update-dept">Lưu thay đổi</button>
-			</div>			
+			</div>
 		</div>
 		<!-- /.modal-content -->
 	</div>
@@ -138,23 +138,23 @@
 				<p style="font-weight: 700;">Thuộc: <span id="dept-is"></span></p>
 				<div class="row">
 					<div class="col-4">
-						<input id="staff-code" type="text" 
-							class="form-control @error('staff_code') is-invalid @enderror" 
+						<input id="staff-code" type="text"
+							class="form-control @error('staff_code') is-invalid @enderror"
 							name="staff_code" value="{{ old('staff_code') }}" required
 							placeholder="Mã nhân viên" />
 					</div>
 					<div class="col-4">
-						<input id="family_name" type="text" 
-							class="form-control @error('family_name') is-invalid @enderror" 
-							name="family_name" value="{{ old('family_name') }}" required 
+						<input id="family_name" type="text"
+							class="form-control @error('family_name') is-invalid @enderror"
+							name="family_name" value="{{ old('family_name') }}" required
 							placeholder="Họ" />
 					</div>
 					<div class="col-4">
-						<input id="given_name" type="text" 
-							class="form-control @error('given_name') is-invalid @enderror" 
-							name="given_name" value="{{ old('given_name') }}" required 
+						<input id="given_name" type="text"
+							class="form-control @error('given_name') is-invalid @enderror"
+							name="given_name" value="{{ old('given_name') }}" required
 							placeholder="Tên" />
-					</div>					
+					</div>
 				</div>
 				<div class="row margin-top">
 					<div class="col-12 input-group">
@@ -195,7 +195,20 @@
 						</select>
 					</div>
 					<div class="col-6">
-						{!! Form::select('permission', array_merge(['-'=>'-- Chọn nhóm --'], \App\Constant::STAFF_GROUPS), null, ['class'=>'form-control']) !!}
+                        <select name="permission" id="permission" class="form-control">
+                            <option value="" selected></option>
+                            @foreach($role as $roles)
+                                @if(old('permission'))
+                                    <div class="col-sm-2">
+                                        <option {{ old('permission') == $roles->id ? 'selected' : ''}} value="{{$roles->id}}">{{$roles->display_name}}</option>
+                                    </div>
+                                @else
+                                    <div class="col-sm-2">
+                                        <option value="{{$roles->id}}">{{$roles->display_name}}</option>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </select>
 					</div>
 				</div>
 				<div class="row margin-top">
@@ -220,9 +233,9 @@
 						</div>
 					</div>
 					<div class="col-6">
-						<input id="phone" type="text" 
-							class="form-control @error('phone') is-invalid @enderror" 
-							name="phone" value="{{ old('phone') }}" required 
+						<input id="phone" type="text"
+							class="form-control @error('phone') is-invalid @enderror"
+							name="phone" value="{{ old('phone') }}" required
 							placeholder="Số điện thoại" />
 					</div>
 				</div>
@@ -266,18 +279,18 @@
 $(document).ready(function () {
 	/* Department process */
 	$('#modal-add-dept').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget);		
+		var button = $(event.relatedTarget);
 		var modal = $(this);
 		modal.find('#parent-dept-is').text(button.data('prefixname') + ' ' + button.data('deptname'));
 		modal.find('#parent-id').val(button.data('deptid'));
 		modal.find('#dept-name').val('');
-		
+
 	});
-	
+
 	$('#modal-add-dept').on('shown.bs.modal', function () {
 		$('#dept-name').trigger('focus');
 	});
-	
+
 	$('#btn-save-dept').on('click', function() {
 		var modal = $('#modal-add-dept');
 		// add new department ...
@@ -291,32 +304,32 @@ $(document).ready(function () {
 		    method: "POST",
 		    data: {parent_id: p_id, name: dept_name, 'prefix': prefix},
 		    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-		    success: function (jsResult) {		    
-		    	if (jsResult.status === 'success') {	    		
-		    		toastr.success(jsResult.message);	    		
+		    success: function (jsResult) {
+		    	if (jsResult.status === 'success') {
+		    		toastr.success(jsResult.message);
 		    		$('#department-structure').html(jsResult.body);
 		    		modal.modal('hide');
 			    } else {
 			    	toastr.error(jsResult.message);
-			    }            
+			    }
 	        }
 		});
 		/**/
 	});
-	
+
 	$('#modal-edit-dept').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget);		
+		var button = $(event.relatedTarget);
 		var modal = $(this);
 		modal.find('#parent-dept-is').text(button.data('parentprefix') + button.data('parentname'));
 		if (button.data('parentname') === '') {
 			modal.find('#dept-parent').hide();
 		}
-		modal.find('#dept-name').val(button.data('deptname'));		
+		modal.find('#dept-name').val(button.data('deptname'));
 		modal.find('#dept-id').val(button.data('deptid'));
-		modal.find('#prefix-list').val(button.data('prefixid'));		
+		modal.find('#prefix-list').val(button.data('prefixid'));
 
 	});
-	
+
 	$('#btn-update-dept').on('click', function() {
 		var modal = $('#modal-edit-dept');
 		// update department ...
@@ -330,35 +343,35 @@ $(document).ready(function () {
 		    method: "POST",
 		    data: {id: dept_id, name: dept_name, 'prefix': prefix},
 		    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-		    success: function (jsResult) {		    
-		    	if (jsResult.status === 'success') {	    		
-		    		toastr.success(jsResult.message);	    		
+		    success: function (jsResult) {
+		    	if (jsResult.status === 'success') {
+		    		toastr.success(jsResult.message);
 		    		$('#department-structure').html(jsResult.body);
 		    		modal.modal('hide');
 			    } else {
 			    	toastr.error(jsResult.message);
-			    }            
+			    }
 	        }
 		});
 		/**/
 	});
-	
+
 	$('#modal-delegate').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget);		
+		var button = $(event.relatedTarget);
 		var modal = $(this);
 		modal.find('#dept-is').text(button.data('prefixname') + ' ' + button.data('deptname'));
-		// /staff/load-staff/{dept_id}		
+		// /staff/load-staff/{dept_id}
 		$.ajax({
 		    url: "/staff/load-staff/" + button.data('deptid'),
 		    method: "GET",
-		    success: function (result) {	
-		    	$('#staff-choose-list').html(result);   
+		    success: function (result) {
+		    	$('#staff-choose-list').html(result);
 	        }
 		});
 	});
-	
+
 	/* Staff process */
-	$('#modal-add-staff').on('show.bs.modal', function (event) {	
+	$('#modal-add-staff').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget);
 		var recipient = button.data('prefixname') + ' ' + button.data('deptname');
 		var modal = $(this);
@@ -389,17 +402,17 @@ $(document).ready(function () {
 		var gender = modal.find('input[name="radio-gender"]:checked').val();
 		var phone = modal.find('#phone').val();
 		var permission = modal.find('#permission').val();
-		
+
 		/* jquery post data	*/
 		$.ajax({
 		    url: "/staff/add",
 		    method: "POST",
 		    data: {
 				'staff_code': staff_code,
-				'title_id': title_id, 
-				'dept_id': dept_id, 
-				'family_name': family_name, 
-				'given_name': given_name, 
+				'title_id': title_id,
+				'dept_id': dept_id,
+				'family_name': family_name,
+				'given_name': given_name,
 				'email': email + '@s-connect.net',
 				'password': password,
 				'password_confirm': password_confirm,
@@ -408,14 +421,14 @@ $(document).ready(function () {
 				'permission' : permission
 			},
 		    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-		    success: function (jsResult) {	
-		    	if (jsResult.status === 'success') {	    		
-		    		toastr.success(jsResult.message);	    		
+		    success: function (jsResult) {
+		    	if (jsResult.status === 'success') {
+		    		toastr.success(jsResult.message);
 		    		$('#department-structure').html(jsResult.body);
 		    		modal.modal('hide');
 			    } else {
 			    	toastr.error(jsResult.message);
-			    }    
+			    }
 	        }
 		});
 		/**/
@@ -433,9 +446,9 @@ $(document).ready(function () {
 	$('#btn-delete-agree').on('click', function() {
 		// delete department ...
 		$.get( "/department/delete-" + deptIdToDelete, function( jsResult ) {
-	    	if (jsResult.status === 'success') {	    		
-	    		toastr.success(jsResult.message);	    		
-	    		$('#department-structure').html(jsResult.body);    		
+	    	if (jsResult.status === 'success') {
+	    		toastr.success(jsResult.message);
+	    		$('#department-structure').html(jsResult.body);
 		    } else {
 		    	toastr.error(jsResult.message);
 		    }
@@ -447,7 +460,7 @@ $(document).ready(function () {
 	})
 });
 
-function select_manager(deptid, staffid) {	
+function select_manager(deptid, staffid) {
 	// /department/assign-manager/{dept_id}/{user_id}
 	$.ajax({
 	    url: "/department/assign-manager/"+deptid+"/" + staffid,
@@ -459,12 +472,12 @@ function select_manager(deptid, staffid) {
 	    		$('#modal-delegate').modal('hide');
 		    } else {
 		    	toastr.error(jsResult.message);
-		    }            
+		    }
         }
 	});
-	
+
 }
-</script>		
-				
-				
+</script>
+
+
 @endsection

@@ -9,6 +9,7 @@ class PermissionGateAndPolicyAccess{
 
         $this->defineMedia();
         $this->defineAdmin();
+        $this->defineMarketing();
 
 
     }
@@ -25,6 +26,11 @@ class PermissionGateAndPolicyAccess{
         Gate::define('setting','App\Policies\AdminPolicy@setting');
         Gate::define('staff','App\Policies\AdminPolicy@staff');
         Gate::define('roles','App\Policies\AdminPolicy@roles');
+    }
+
+    public function defineMarketing(){
+        Gate::define('shortlink','App\Policies\MarketingPolicy@shortlink');
+        Gate::define('promotion','App\Policies\MarketingPolicy@promotion');
     }
 
 

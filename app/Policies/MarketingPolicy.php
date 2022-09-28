@@ -18,4 +18,12 @@ class MarketingPolicy
     {
         //
     }
+    public function shortlink(User $user)
+    {
+        return $user->checkPermissionAccess('shortlink');
+    }
+    public function promotion(User $user)
+    {
+        return $user->checkPermissionAccess('quang-cao');
+    }
 }

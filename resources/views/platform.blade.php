@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 <div class="container">
-	{!! App\Utils::createBreadcrumb(array('Media', 'Nền tảng chia sẻ video')) !!}	
+	{!! App\Utils::createBreadcrumb(array('Media', 'Nền tảng chia sẻ video')) !!}
 	<div class="row">
 		<div class="col-md-4">
 			<div class="card">
@@ -12,16 +12,16 @@
 				<div class="card-body">
 					<form method="POST" action="/platform/save" enctype="multipart/form-data">@csrf
 						<input type="hidden" name="id" value="0" id="id" />
-						<input id="name" type="text" 
-							class="form-control @error('name') is-invalid @enderror" 
-							name="name" value="{{ old('name') }}" required 
+						<input id="name" type="text"
+							class="form-control @error('name') is-invalid @enderror"
+							name="name" value="{{ old('name') }}" required
 							autofocus placeholder="Tên nền tảng">
-						<input id="website" type="text" 
-							class="form-control margin-top @error('website') is-invalid @enderror" 
-							name="website" value="{{ old('website') }}" required 
+						<input id="website" type="text"
+							class="form-control margin-top @error('website') is-invalid @enderror"
+							name="website" value="{{ old('website') }}" required
 							placeholder="https://facebook.com">
 						<div class="custom-file margin-top">
-							<input type="file" class="custom-file-input" name="picture" id="picture">
+							<input id="picture" type="file" class="custom-file-input @error('picture') is-invalid @enderror" name="picture" >
 							<label class="custom-file-label text-grey" for="picture">Chọn ảnh đại diện</label>
 						</div>
 						@if($errors->any())
@@ -52,15 +52,15 @@
 									</a>
 									<div><a href="{{ url($platform->website) }}" class="text-grey">{{ $platform->website }}</a></div>
 									<div align="right">
-										<span><i class="far fa-edit ic24 cursor-hand" onclick="editPlatform({{ $platform->id }}, '{{ htmlspecialchars($platform->name) }}', '{{ $platform->website }}')"></i></span>									
-										<span><i class="far fa-trash-alt ic24 cursor-hand" style="color: #ff5648!important" onclick="deletePlatform({{ $platform->id }}, '{{ htmlspecialchars($platform->name) }}', {{$total_channels}}, 0)"></i></span>									
+										<span><i class="far fa-edit ic24 cursor-hand" onclick="editPlatform({{ $platform->id }}, '{{ htmlspecialchars($platform->name) }}', '{{ $platform->website }}')"></i></span>
+										<span><i class="far fa-trash-alt ic24 cursor-hand" style="color: #ff5648!important" onclick="deletePlatform({{ $platform->id }}, '{{ htmlspecialchars($platform->name) }}', {{$total_channels}}, 0)"></i></span>
 									</div>
 								</div>
 								<div class="card-footer" style="text-align: left;">
 									<div style="white-space: nowrap;">Số kênh: {{$total_channels}}</div>
 									<div style="white-space: nowrap;">Số video: 0</div>
 								</div>
-							</div>							
+							</div>
 						</div>
 						@endforeach
 					</div>
@@ -101,12 +101,12 @@
 <script>
 	$(function () { bsCustomFileInput.init(); });
 
-	function editPlatform(id, name, website) {		
+	function editPlatform(id, name, website) {
 		$('.card-title').html('Cập nhật nền tảng');
 		$('#id').val(id);
 		$('#name').val(name);
 		$('#website').val(website);
-		$('#name').trigger('focus');		
+		$('#name').trigger('focus');
 	}
 
 	function deletePlatform(id, name, total_channels, total_videos) {
@@ -118,27 +118,27 @@
 
 	$('#btn-delete-agree').on('click', function() {
 		$('#modal-delete-platform').modal('hide');
-		var id = $('#delete-platform-id').val();		
+		var id = $('#delete-platform-id').val();
 
 		$.ajax({
 		    url: "/platform/delete/" + id,
 		    method: "GET",
-		    success: function (jsResult) {	
-		    	if (jsResult.status === 'success') {	    		
+		    success: function (jsResult) {
+		    	if (jsResult.status === 'success') {
 		    		toastr.success(jsResult.message);
-		    		$('#platform-' + id).remove();    		
+		    		$('#platform-' + id).remove();
 			    } else {
 			    	toastr.error(jsResult.message);
-			    } 
+			    }
 	        }
 		});
 	});
-	
+
 	@php
 	if (Session::has('msg')) {
 		echo 'toastr.success("'.Session::get('msg').'");';
 	}
-	@endphp	
-	
+	@endphp
+
 </script>
 @endsection

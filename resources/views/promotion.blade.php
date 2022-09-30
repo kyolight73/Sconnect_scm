@@ -2,6 +2,8 @@
 @section('content')
     <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <div class="container">
         @php
@@ -30,8 +32,7 @@
                         <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link{{ $tab == 0 ? ' active' : '' }}" id="custom-tabs-four-0-tab"
-                                   href="?tab=0&video_id={{$video_id}}&d={{$from_detail}}">Mới ({{ $tab_item_count[0] }}
-                                    )</a>
+                                   href="?tab=0&video_id={{$video_id}}&d={{$from_detail}}">Mới ({{ $tab_item_count[0] }})</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link{{ $tab == 1 ? ' active' : '' }}" id="custom-tabs-four-1-tab"
@@ -55,7 +56,7 @@
                             </li>
                         </ul>
                         <div class="inline" style="position:absolute; right: 15px; top: 10px">
-                            @if ($video_id > 0 && (new \App\Models\Role())->getRole(Auth::user()->permission)->name ==='QTK')
+                            @if ($video_id > 0 && \App\Models\Role::QTK== Auth::user()->permission)
                                 <span class="cursor-hand btn-round" data-toggle="modal"
                                       data-target="#modal-promote-ticket" data-ticketid="0">
 							<i class="fas fa-bullhorn"></i> Tạo Ticket</span>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -23,13 +24,11 @@ class PromotionController extends Controller {
     public function index(Request $request) {
 
         try {
-
             /* TAB */
             $tab = $request->input('tab', 0);
 
             $own_permission = Auth::user()->permission;
             $own_id = Auth::user()->id;
-
             /*
                 - Dem so ticket cua cac tab.
                 - Neu logged user la QTK thi chi lay ticket do minh tao ra.
@@ -37,41 +36,41 @@ class PromotionController extends Controller {
             */
             // Ticket mới
             $t_new_count = Ticket::where('workflow_position', '<', 2);
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 $t_new_count = $t_new_count->where('user_id', $own_id);
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 $t_new_count = $t_new_count->where('mkt_user_id', $own_id);
             }
             $t_new_count = $t_new_count->count();
             // Ticket dang review
             $t_review_count = Ticket::whereIn('workflow_position', [2,3]);
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 $t_review_count = $t_review_count->where('user_id', $own_id);
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 $t_review_count = $t_review_count->where('mkt_user_id', $own_id);
             }
             $t_review_count = $t_review_count->count();
             // Ticket đang chạy
             $t_running_count = Ticket::where('workflow_position', 4);
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 $t_running_count = $t_running_count->where('user_id', $own_id);
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 $t_running_count = $t_running_count->where('mkt_user_id', $own_id);
             }
             $t_running_count = $t_running_count->count();
             // Ticket tam dung
             $t_paused_count = Ticket::where('workflow_position', 5);
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 $t_paused_count = $t_paused_count->where('user_id', $own_id);
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 $t_paused_count = $t_paused_count->where('mkt_user_id', $own_id);
             }
             $t_paused_count = $t_paused_count->count();
             // Ticket đã kết thúc
             $t_finish_count = Ticket::where('workflow_position', 6);
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 $t_finish_count = $t_finish_count->where('user_id', $own_id);
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 $t_finish_count = $t_finish_count->where('mkt_user_id', $own_id);
             }
             $t_finish_count = $t_finish_count->count();
@@ -88,10 +87,10 @@ class PromotionController extends Controller {
             }
 
             $join_where = 'select video_id from tickets where workflow_position in ('.$wp.')';
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 // Neu logged user la QTK thi lay ticket do user tao
                 $join_where .= ' and user_id = ' . $own_id;
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 // Neu logged user la MKT thi lay ticket do QTK gui toi
                 $join_where .= ' and mkt_user_id = ' . $own_id;
             }
@@ -116,19 +115,17 @@ class PromotionController extends Controller {
 
             // Lay thong tin ticket
             $ticket_list = Ticket::whereIn('workflow_position', explode(',', $wp));
-            if ($own_permission === Constant::QTK) {
+            if ($own_permission == Role::QTK) {
                 // Neu logged user la QTK thi lay ticket do user tao
                 $ticket_list = $ticket_list->where('user_id', $own_id);
-            } else if ($own_permission === Constant::MKT) {
+            } else if ($own_permission == Role::MKT) {
                 // Neu logged user la MKT thi lay ticket do QTK gui toi
                 $ticket_list = $ticket_list->where('mkt_user_id', $own_id);
             }
             if ($video_id > 0) $ticket_list = $ticket_list->where('video_id', $video_id);
             $ticket_list = $ticket_list->orderBy('id', 'desc')->get();
-
             // Lay danh sach marketer
-            $marketers = User::where('permission', 4)->get();
-
+            $marketers = User::where('permission', Role::MKT)->get();
         } catch (Exception $e) {
         }
         return view('promotion')->with(compact('tab', 'tab_item_count', 'video_id', 'selected_video', 'video_list', 'ticket_list',

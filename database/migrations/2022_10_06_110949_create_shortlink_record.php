@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fanpage', function (Blueprint $table) {
+        Schema::create('shortlink_country_temp', function (Blueprint $table) {
             $table->id();
-            $table->string('link')->nullable();
-            $table->string('page_name')->nullable();
-            $table->string('theme')->nullable();
-            $table->unsignedInteger('followers')->nullable();
+            $table->string('group_id');
+            $table->string('country_code');
+            $table->date('record_reference');
+            $table->integer('click_count');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fanpage');
+        Schema::dropIfExists('shortlink_record');
     }
 };

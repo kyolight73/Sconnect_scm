@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostInfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +54,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     /* ROUTE FOR CONFIG */
     Route::get('/config', 'ConfigController@index');
+    Route::post('facebook_access_token', 'ConfigController@facebook_access_token')->name('config.facebook_access_token');
 
     /* ROUTE FOR MEDIA */
     Route::get('/platform', 'PlatformController@index')->middleware('can:platform');
@@ -82,9 +85,34 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     //Fanpage
     Route::resource('fanpage', FanpageController::class);
+    Route::resource('post_info', PostInfoController::class);
+    Route::delete('delete/{post_info}', 'PostInfoController@delete')->name('post_info.delete');
+    // Route::get('/fanpage', 'FanpageController@index')->name('fanpage.index');
+    Route::get('get_api_facebook_pages', 'FanpageController@get_api_facebook_pages')->name('api.face');
+    Route::get('get_api_all_post', 'FanpageController@get_api_all_post')->name('api.get_api_all_post');
+    Route::get('show_post_info/{fanpage}', 'FanpageController@show_post_info')->name('fanpage.show_post_info');
+    Route::post('create_post_info/{fanpage}', 'FanpageController@create_post_info')->name('fanpage.create_post_info');
+    Route::post('add_post_api_from_to/{fanpage}', 'FanpageController@add_post_api_from_to')->name('fanpage.add_post_api_from_to');
+    Route::get('page_insight', 'FanpageController@page_insight')->name('fanpage.page_insight');
+
+    // Group
+    Route::resource('group', GroupController::class);
+    Route::get('get_api_all_group', 'GroupController@get_api_all_group')->name('group.get_api_all_group');
+    Route::get('group_insight', 'GroupController@group_insight')->name('group.group_insight');
+
     // Route::get('page-information/{id}', 'DepartmentController@deleteDepartment');
 
     Route::resource('shortlink', ShortlinkController::class)->middleware('can:shortlink');
+    // Shortlink Bitly
+    Route::resource('shortlink', ShortlinkController::class);
+    Route::get('get_update_all_link', 'ShortlinkController@get_update_all_link')->name('shortlink.get_update_all_link');
+    Route::post('create_bitly_api', 'ShortlinkController@create_bitly_api')->name('shortlink.create_bitly_api');
+    Route::post('get_newest_link', 'ShortlinkController@get_newest_link')->name('shortlink.get_newest_link');
+    Route::post('create_bitly_link_api', 'ShortlinkController@create_bitly_link_api')->name('shortlink.create_bitly_link_api');
+    Route::get('shortlink_insight', 'ShortlinkController@shortlink_insight')->name('shortlink.shortlink_insight');
+    Route::get('shortlink_country_group_insight', 'ShortlinkController@shortlink_country_group_insight')->name('shortlink.shortlink_country_group_insight');
+    Route::get('shortlink_record', 'ShortlinkController@shortlink_record')->name('shortlink.shortlink_record');
+    Route::get('shortlink_record_index', 'ShortlinkController@shortlink_record_index')->name('shortlink.shortlink_record_index');
 
     Route::get('/promotion', 'PromotionController@index')->middleware('can:promotion');
     Route::get('/promotion/get-ticket-by-id/{id}', 'TicketController@getTicket');
@@ -112,7 +140,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
     // Route::get('/shortlink', 'ShortlinkController@index')->name('mkt.shortlink');
 
-   // Roles
+    // Roles
     Route::get('/roles', 'RoleController@index')->name('roles')->middleware('can:roles');
     Route::post('/roles/add', 'RoleController@add')->name('roles.add');
     Route::post('/roles/change-{id}', 'RoleController@change')->name('roles.change');
@@ -120,10 +148,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::post('/roles/update/{id}', 'RoleController@update')->name('roles.update');
     Route::get('/roles/delete-{id}', 'RoleController@delete')->name('roles.delete');
 
-   // Permissions
+    // Permissions
     Route::get('/permission/create', 'PermissionController@create')->name('permissions.create');
     Route::post('/store', 'PermissionController@store')->name('permissions.store');
-
 });
 
 //Auth::routes();

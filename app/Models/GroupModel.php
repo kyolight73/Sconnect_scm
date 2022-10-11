@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fanpage extends Model
+class GroupModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'fanpage';
+    protected $table = 'group';
 
     protected $fillable = [
-        'page_id',
-        'page_name',
+        'group_id',
+        'name',
         'picture',
-        'page_theme',
-        'page_url',
-        'likes_count',
-        'access_token',
+        'link',
+        'member_count',
     ];
 }

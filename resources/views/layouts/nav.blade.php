@@ -47,15 +47,19 @@
                                         class="fas fa-project-diagram ic24"></i> Kênh video</a></li>
                             <li><a href="/video" class="dropdown-item text-color2"><i class="fas fa-film ic24"></i>
                                     Video</a></li>
-                            <li><a href=" {{ route('fanpage.index') }} " class="dropdown-item text-color2"><i
-                                        class="fas fa-film ic24"></i>
-                                    Fanpage</a></li>
+
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a id="ddMenuMarketing" href="#" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false" class="nav-link dropdown-toggle text-color1">Marketing</a>
                         <ul aria-labelledby="ddMenuMarketing" class="dropdown-menu border-0 shadow">
+                            <li><a href=" {{ route('fanpage.index') }} " class="dropdown-item text-color2"><i
+                                        class="fas fa-film ic24"></i>
+                                    Fanpage</a></li>
+                            <li><a href=" {{ route('group.index') }} " class="dropdown-item text-color2"><i
+                                        class="fas fa-film ic24"></i>
+                                    Group</a></li>
                             <li><a href="{{ route('shortlink.index') }}" class="dropdown-item text-color2"><i
                                         class="fas fa-link ic24"></i>
                                     Shortlink</a></li>
@@ -69,6 +73,10 @@
 
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" style="display: flex; align-items: center;">
+                        <a href="#" data-toggle="modal" data-target="#modal_setting"><i
+                                class='fas fa-cogs ic24'></i></a>
+                    </li>
                     @guest
                         @if (Route::has('login') && !Route::is('login'))
                             <li class="nav-item">
@@ -108,7 +116,7 @@
                                             }
                                             $pers = '';
                                             if (!empty(Auth::user()->permission) && Auth::user()->permission !== '-') {
-                                                $pers = ' (' . (new \App\Models\Role())->getRole(Auth::user()->permission)->name ?? '' . ').' ?? '';
+                                                $pers = ' (' . (new \App\Models\Role())->getRole(Auth::user()->permission)->name ?? ('' . ').' ?? '');
                                             }
                                         @endphp
                                         <small>
@@ -146,7 +154,7 @@
     </nav>
 </div>
 
-<?php /* ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?>
+<?php /* ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?> ?>
 <nav class="main-header navbar navbar-expand-md navbar-light" style="margin-left: 0px!important; padding-left: 20px;">
     <!-- Left navbar links -->
     <ul class="navbar-nav">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationCommentQTK;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
@@ -79,8 +80,6 @@ class TicketController extends Controller {
             }
 
             $from_user = Auth::user();
-            dd($from_user);
-
             $to_user = null;
             $created_by = '';
 
@@ -88,11 +87,45 @@ class TicketController extends Controller {
             if ($from_user->permission == Role::QTK) {
                 $to_user = $ticket->marketer;
                 $created_by = $from_user->name;
+                $tickeName = explode(',', $ticket->title);
+                $workflow = explode(',', Ticket::WORKFLOW[$ticket->workflow_position]);
+                $creatorName = explode(',', $ticket->creator->name);
+                $ticketIDmkt = $ticket->mkt_user_id;
+                $options = array(
+                    'cluster' => 'ap1',
+                    'encrypted' => true
+                );
+
+                $pusher = new Pusher(
+                    '6b130b67d49fcb735aa4',
+                    '398a5b704906d3fa1e10',
+                    '1483557',
+                    $options
+                );
+
+                $pusher->trigger('channel_'.$ticketIDmkt, 'channel_stt_QTK',data: [$creatorName,$tickeName,$workflow]);
             }
 
             if($from_user->permission == Role::MKT) {
                 $to_user = $ticket->creator;
                 $created_by = $to_user->name;
+                $tickeName = explode(',', $ticket->title);
+                $workflow = explode(',', Ticket::WORKFLOW[$ticket->workflow_position]);
+                $marketerName = explode(',', $ticket->marketer->name);
+                $ticketIDqtk = $ticket->user_id;
+                $options = array(
+                    'cluster' => 'ap1',
+                    'encrypted' => true
+                );
+
+                $pusher = new Pusher(
+                    '6b130b67d49fcb735aa4',
+                    '398a5b704906d3fa1e10',
+                    '1483557',
+                    $options
+                );
+
+                $pusher->trigger('channel_'.$ticketIDqtk, 'channel_stt_MTK',data: [$marketerName,$tickeName,$workflow]);
             }
             if (!empty($from_user) && !empty($to_user) && $from_user->id != $to_user->id) {
                 $body =
@@ -109,23 +142,6 @@ class TicketController extends Controller {
                     . '<div><strong>Từ khóa:</strong> <i>'. $keyword .'</i></div>'
                     . '</div>';
                 // Tao notification'
-                $tickeName = explode(',', $ticket->title);
-                $workflow = explode(',', Ticket::WORKFLOW[$ticket->workflow_position]);
-                $marketerName = explode(',', $ticket->marketer->name);
-                $options = array(
-                    'cluster' => 'ap1',
-                    'encrypted' => true
-                );
-
-                $pusher = new Pusher(
-                    '6b130b67d49fcb735aa4',
-                    '398a5b704906d3fa1e10',
-                    '1483557',
-                    $options
-                );
-
-                $pusher->trigger('NotificationTicket', 'send-message',data: [$marketerName,$tickeName,$workflow]);
-                //session()->put('info','Item Successfullyyy.');
                 // Gui mail, sms, notification thong bao
                 $emailToMKT = new SendMailToMKT(
                     /* from */
@@ -215,25 +231,27 @@ class TicketController extends Controller {
                     $to_user = $marketer;
                     $nameCreator= $ticket->creator->name;
                     $explode_id = explode(',', $nameCreator);
+                    $ticketIDmkt = $ticket->mkt_user_id;
+                    $ticketName =explode(',', $ticket->title);
                     $options = array(
                         'cluster' => 'ap1',
                         'encrypted' => true
                     );
-
                     $pusher = new Pusher(
                         '6b130b67d49fcb735aa4',
                         '398a5b704906d3fa1e10',
                         '1483557',
                         $options
                     );
-
-                    $pusher->trigger('NotificationEvent', 'send-message',data: [$txt_comment,$explode_id,$tickeName]);
+                    $pusher->trigger('channel_'.$ticketIDmkt, 'channel_',data: [$txt_comment,$explode_id,$ticketName]);
 
                 } else if ($comment->user_id == $marketer->id) {
                     $from_user = $marketer;
                     $to_user = $creator;
                     $nameMarketer= $ticket->marketer->name;
                     $explode_id = explode(',', $nameMarketer);
+                    $ticketIDqtk = $ticket->user_id;
+                    $ticketName =explode(',', $ticket->title);
                     $options = array(
                         'cluster' => 'ap1',
                         'encrypted' => true
@@ -246,7 +264,7 @@ class TicketController extends Controller {
                         $options
                     );
 
-                    $pusher->trigger('NotificationMktEvent', 'send-message',data: [$txt_comment,$explode_id,$tickeName]);
+                    $pusher->trigger('channel_'.$ticketIDqtk, 'channelMkt_',data: [$txt_comment,$explode_id,$ticketName]);
                 }
                 // ...
                 // Gui mail, sms, notification thong bao

@@ -129,6 +129,6 @@ class PromotionController extends Controller {
         } catch (Exception $e) {
         }
         return view('promotion')->with(compact('tab', 'tab_item_count', 'video_id', 'selected_video', 'video_list', 'ticket_list',
-            'arr_view', 'str_label', 'str_view', 'marketers'));
+            'arr_view', 'str_label', 'str_view', 'marketers','own_id'));
     }
 }

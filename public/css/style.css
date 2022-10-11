@@ -3,7 +3,7 @@ body{color: #3e3e3e; font-size: 14px;} .p-10{padding: 10px;} .ptop-10{padding-to
 #app a:HOVER{text-decoration: underline;}
 a{color: #35661c; } .nowrap{white-space: nowrap;}
 .pad15 {padding: 5px 15px;} .padv3h15 {padding: 3px 15px;}
-.no-underline{text-decoration: none;} .no-underline:HOVER {text-decoration: none!important;} 
+.no-underline{text-decoration: none;} .no-underline:HOVER {text-decoration: none!important;}
 .subs{border-top: 1px dotted black; margin-left: -1em; padding-left: 1em;}
 .table-no-border td{border: 0!important; padding: 0.4rem 0rem!important;}
 i.fa, i.fas, i.far {color: #247605;} ul {list-style-type: none;}
@@ -47,9 +47,9 @@ i.fa, i.fas, i.far {color: #247605;} ul {list-style-type: none;}
     padding: 0;
     list-style: none;}
 
-.is-invalid,.color-danger {color: #ff5648!important} 
+.is-invalid,.color-danger {color: #ff5648!important}
 .nav-sconnect {
-/*Color: D7F70E A7E121 80D700 38B235 2F9906 247605 */	
+/*Color: D7F70E A7E121 80D700 38B235 2F9906 247605 */
 }
 .hide{display: none;} .show{display: '';}
 
@@ -141,7 +141,7 @@ a.folder:HOVER{text-decoration: none!important;}
 .link-underline-hover:HOVER{text-decoration: underline;}
 .round4 {border: 1px solid #80D700; background-color: #fefefe; border-radius: 4px; padding: 5px 10px;}
 
-.ic24 {width: 24px; height: 24px; } 
+.ic24 {width: 24px; height: 24px; }
 .ic32 {width: 32px; height: 32px; }
 .margin-top {margin-top: 10px;}
 .cursor-hand{cursor: pointer;}
@@ -200,8 +200,8 @@ a.folder:HOVER{text-decoration: none!important;}
     border-radius: 0.25rem;
 	box-shadow: 0 0 1px rgb(0 0 0 / 30%), 0 1px 3px rgb(0 0 0 / 40%);
     display: inline-block;
-    margin: 0 .5em .6em;    
-    position: relative;    
+    margin: 0 .5em .6em;
+    position: relative;
 }
 .tree code {
 	max-width: 240px;
@@ -314,10 +314,10 @@ span.action-box {float: right; background: none!important; border: 0!important;d
 ul.folder-tree { padding-left: 1em; }
 ul.folder-tree, li { list-style: none; margin: 0; padding: 0; }
 
-ul.folder-tree li { 
+ul.folder-tree li {
 	padding: 1em 0em 0em 1em;
   	border: 1px dotted black;
-  	border-width: 0 0 1px 1px;   
+  	border-width: 0 0 1px 1px;
 }
 
 ul.folder-tree li.container { border-bottom: 0px; }
@@ -330,14 +330,14 @@ ul.folder-tree li.empty { font-style: italic;
 ul.folder-tree li p { margin: 0;
   background: white;
   position: relative;
-  top: 0.5em; 
+  top: 0.5em;
   margin-bottom: -10px;
 }
 
-ul.folder-tree li ul { 
-  /*border-top: 1px dotted black;*/ 
-  margin-left: -1em;     
-  padding-left: 2em; 
+ul.folder-tree li ul {
+  /*border-top: 1px dotted black;*/
+  margin-left: -1em;
+  padding-left: 2em;
 }
 ul.folder-tree li:last-child ul {
   border-left: 1px solid white;
@@ -346,4 +346,102 @@ ul.folder-tree li:last-child ul {
 
 /* ===== END FOLDER TREE VIEW ===== */
 
+@charset "UTF-8";
+small, .small {
+    font-size: 85%;
+}
 
+.toast-wrapper {
+    display: inline-block;
+    width: 360px;
+    top: 20px;
+    right: 20px;
+    position: fixed;
+    z-index: 9999;
+    margin: 0;
+}
+.toast-wrapper.top-left {
+    left: 20px;
+    right: auto;
+}
+.toast-wrapper.bottom-right {
+    top: auto;
+    left: auto;
+    bottom: 20px;
+    right: 20px;
+}
+.toast-wrapper.bottom-left {
+    top: auto;
+    right: auto;
+    bottom: 20px;
+    left: 20px;
+}
+.toast-wrapper > .toast {
+    max-width: 100%;
+}
+
+.toast {
+    position: relative;
+}
+.toast .toast-img-container {
+    display: table-cell;
+    width: 26%;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #292e34;
+}
+.toast .toast-img-container .toast-image {
+    width: 48px;
+    height: 48px;
+}
+.toast .toast-content {
+    width: auto;
+}
+.toast .toast-content.toast-with-image, .toast .toast-content.toast-without-image {
+    display: table-cell;
+    padding: 15px 35px 17px 15px;
+}
+.toast .toast-content.toast-with-image {
+    width: 267px;
+}
+.toast .toast-content.toast-without-image {
+    border-left: 0;
+}
+.toast .toast-content .toast-close {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: auto;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    font-size: 0;
+    background: 0 0;
+    text-indent: inherit;
+    opacity: 0.7;
+}
+.toast .toast-content .toast-close:hover {
+    opacity: 1;
+}
+.toast .toast-content .toast-close:after {
+    content: "";
+    font-family: "Material-Design-Iconic-Font";
+    color: #ffffff;
+    font-size: 1.538rem;
+    text-shadow: none;
+    line-height: 35px;
+    margin-left: 7px;
+    color: #222;
+}
+.toast .toast-content .toast-title {
+    display: block;
+    font-size: 1.308rem;
+    padding: 0 0 7px 0;
+}
+.toast .toast-content p {
+    padding: 0;
+    margin: 0;
+    font-size: 0.9231rem;
+    line-height: 19px;
+}

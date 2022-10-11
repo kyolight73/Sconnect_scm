@@ -4,8 +4,9 @@
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="container">
+
         @php
             $from_detail = request()->input('d', 'false');
 

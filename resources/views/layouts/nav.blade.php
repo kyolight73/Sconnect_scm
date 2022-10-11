@@ -1,14 +1,14 @@
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white"
-        style="margin-left: 0px!important; padding-left: 20px;">
+         style="margin-left: 0px!important; padding-left: 20px;">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="/images/logo_sconnect_200.png" width="32" height="32" />
+                <img src="/images/logo_sconnect_200.png" width="32" height="32"/>
             </a>
 
             <button class="navbar-toggler order-1 collapsed" type="button" data-toggle="collapse"
-                data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                aria-label="Toggle navigation">
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -17,7 +17,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a id="ddMenuSystem" href="#" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" class="nav-link dropdown-toggle text-color1">Hệ thống</a>
+                           aria-expanded="false" class="nav-link dropdown-toggle text-color1">Hệ thống</a>
                         <ul aria-labelledby="ddMenuSystem" class="dropdown-menu border-0 shadow">
                             <li><a href="/" class="dropdown-item text-color2"><i class='fas fa-home ic24'></i>
                                     Trang chủ</a></li>
@@ -33,7 +33,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a id="ddMenuMedia" href="#" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" class="nav-link dropdown-toggle text-color1">Media</a>
+                           aria-expanded="false" class="nav-link dropdown-toggle text-color1">Media</a>
                         <ul aria-labelledby="ddMenuMedia" class="dropdown-menu border-0 shadow">
                             <li><a href="/origin-product" class="dropdown-item text-color2"><i
                                         class="far fa-file-video ic24"></i> Sản phẩm gốc</a></li>
@@ -54,7 +54,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a id="ddMenuMarketing" href="#" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" class="nav-link dropdown-toggle text-color1">Marketing</a>
+                           aria-expanded="false" class="nav-link dropdown-toggle text-color1">Marketing</a>
                         <ul aria-labelledby="ddMenuMarketing" class="dropdown-menu border-0 shadow">
                             <li><a href="{{ route('shortlink.index') }}" class="dropdown-item text-color2"><i
                                         class="fas fa-link ic24"></i>
@@ -79,17 +79,19 @@
                         @php $fullname = Auth::user()->family_name . ' ' . Auth::user()->given_name; @endphp
                         <li class="nav-item dropdown user-menu">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
-                                aria-expanded="false">
-                                <img src="{{ empty(Auth::user()->picture) ? '/images/ui-user.svg?v2' : Auth::user()->picture }}"
+                               aria-expanded="false">
+                                <img
+                                    src="{{ empty(Auth::user()->picture) ? '/images/ui-user.svg?v2' : Auth::user()->picture }}"
                                     class="user-image img-circle elevation-2 user-default-avatar"
-                                    alt="{{ Auth::user()->name }}" />
+                                    alt="{{ Auth::user()->name }}"/>
                                 <span class="d-none d-md-inline">{{ $fullname }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
                                 style="left: inherit; right: 0px;">
                                 <!-- User image -->
                                 <li class="user-header bg-success">
-                                    <img src="{{ empty(Auth::user()->picture) ? '/images/ui-user.svg?v2' : Auth::user()->picture }}"
+                                    <img
+                                        src="{{ empty(Auth::user()->picture) ? '/images/ui-user.svg?v2' : Auth::user()->picture }}"
                                         class="img-circle elevation-2" alt="{{ Auth::user()->name }}">
                                     <p>
                                         {{ $fullname }}
@@ -121,19 +123,19 @@
                                 <li class="user-footer">
                                     <a href="#" class="btn btn-default btn-flat">Hồ sơ</a>
                                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-right"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng
                                         xuất</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
+                                          class="d-none">
                                         @csrf</form>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown dropdown-notifications">
+                        <li class="nav-item dropdown dropdown-notifications show" aria-live="polite" aria-atomic="true">
                             <a href="#notifications-panel" class="nav-link" data-toggle="dropdown">
                                 <i data-count="0" class="fa fa-bell notification-icon"></i>
                             </a>
-                            <ul class="dropdown-menu dropdown-content mt-2 border-0">
+                            <ul class="dropdown-menu dropdown-content mt-2 border-0 show" style="width: 370px">
 
                             </ul>
                         </li>
@@ -265,15 +267,18 @@
     </div>
 </nav>
 <?php */ ?>
+
 @section('js')
+
     <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
 
     <script type="text/javascript">
-        var notificationsWrapper   = $('.dropdown-notifications');
-        var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+
+        var notificationsWrapper = $('.dropdown-notifications');
+        var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
         var notificationsCountElem = notificationsToggle.find('i[data-count]');
-        var notificationsCount     = parseInt(notificationsCountElem.data('count'));
-        var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+        var notificationsCount = parseInt(notificationsCountElem.data('count'));
+        var notifications = notificationsWrapper.find('ul.dropdown-menu');
 
 
         // Enable pusher logging - don't include this in production
@@ -285,33 +290,57 @@
         });
 
         // Subscribe to the channel we specified in our Laravel Event
-        var channel0 = pusher.subscribe('NotificationTicket');
-        var channel = pusher.subscribe('NotificationEvent');
-        var channel2 = pusher.subscribe('NotificationMktEvent');
+        var channelStatusMTK = pusher.subscribe('channel_{{\Illuminate\Support\Facades\Auth::user()->id ?? ''}}');
+        var channelStatusQTK = pusher.subscribe('channel_{{\Illuminate\Support\Facades\Auth::user()->id ?? ''}}');
+
+        var channelCommentQTK = pusher.subscribe('channel_{{\Illuminate\Support\Facades\Auth::user()->id ?? ''}}');
+        var channelCommentMKT = pusher.subscribe('channel_{{\Illuminate\Support\Facades\Auth::user()->id ?? ''}}');
 
 
         // Bind a function to a Event (the full Laravel class)
-        channel0.bind('send-message', function(data) {
+        channelStatusQTK.bind('channel_stt_QTK', function (data) {
             var create_date = (moment(Date.now()).format('HH:mm DD/MM/YYYY'));
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `
-          <li class="notification active">
-              <div class="media">
-                <div class="media-left">
-                  <div class="media-object">
-                    <img src="https://kenh14cdn.com/2020/10/3/rose-bi-quyet-so-huu-vong-eo-con-kien-16016906513292077166174.jpg" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
-                  </div>
+          <li class="">
+            <div class="toast-header">
+                <strong class="mr-auto">Bạn có thông báo mới</strong>
+                <small>` + create_date + `</small>
+                <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                </button>
+            </div>
+            <div class="toast-body">
+            <p><strong class="notification-title">` + data[0] + `</strong> đã cập nhật ticket <strong>` + data[1] + `</strong></p>
+            </div>
+          </li>
+        `;
+            notifications.html(newNotificationHtml + existingNotifications);
+
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.notif-count').text(notificationsCount);
+            notificationsWrapper.show();
+        });
+        channelStatusMTK.bind('channel_stt_MTK', function (data) {
+            var create_date = (moment(Date.now()).format('HH:mm DD/MM/YYYY'));
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `
+          <li class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="toast-container">
+                <div class="toast-header">
+                    <strong class="mr-auto">Bạn có thông báo mới</strong>
+                    <small>` + create_date + `</small>
+                    <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                    </button>
                 </div>
-                <div class="media-body">
-                   <strong class="notification-title"> `+data[0]+`</strong>
-             <p class="notification-title">Đã đổi trạng thái của ticket <strong>`+data[1]+`</strong> thành <strong>`+data[2]+`</strong></p>
-<!--                  <strong class="notification-title">Comment: </strong>-->
-                  <div class="notification-meta">
-                    <small class="timestamp">`+create_date+`</small>
-                  </div>
+                <div class="toast-body">
+                <p><strong class="notification-title">` + data[0] + `</strong> đã cập nhật ticket <strong>` + data[1] + `</strong></p>
                 </div>
-              </div>
+            </div>
           </li>
         `;
             notifications.html(newNotificationHtml + existingNotifications);
@@ -322,28 +351,22 @@
             notificationsWrapper.show();
         });
 
-        channel.bind('send-message', function(data) {
+        channelCommentQTK.bind('channel_', function (data) {
             var create_date = (moment(Date.now()).format('HH:mm DD/MM/YYYY'));
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `
-          <li class="notification active">
-              <div class="media">
-                <div class="media-left">
-                  <div class="media-object">
-                    <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
-                  </div>
-                </div>
-                <div class="media-body">
-                   <strong class="notification-title">`+data[1]+`</strong>
-                  <p class="notification-title">Đã comment: `+data[0]+`</p>
-                  <p class="notification-title">Ticket: `+data[2]+`</p>
-<!--                  <strong class="notification-title">Comment: </strong>-->
-                  <div class="notification-meta">
-                    <small class="timestamp">`+create_date+`</small>
-                  </div>
-                </div>
-              </div>
+          <li class="">
+            <div class="toast-header">
+                <strong class="mr-auto">Bạn có thông báo mới</strong>
+                <small>` + create_date + `</small>
+                <button type="button" class="ml-2 close show" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                </button>
+            </div>
+            <div class="toast-body">
+            <p><strong class="notification-title">` + data[1] + `</strong> đã comment vào ticket <strong>` + data[2] + `</strong></p>
+            </div>
           </li>
         `;
             notifications.html(newNotificationHtml + existingNotifications);
@@ -354,27 +377,22 @@
             notificationsWrapper.show();
         });
 
-        channel2.bind('send-message', function(data) {
+        channelCommentMKT.bind('channelMkt_', function (data) {
             var create_date = (moment(Date.now()).format('HH:mm DD/MM/YYYY'));
             var existingNotifications = notifications.html();
             var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
             var newNotificationHtml = `
-          <li class="notification active">
-              <div class="media">
-                <div class="media-left">
-                  <div class="media-object">
-                    <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
-                  </div>
-                </div>
-                <div class="media-body">
-                  <strong class="notification-title">`+data[1]+`</strong>
-                  <p class="notification-title">Đã comment: `+data[0]+`</p>
-<!--                  <strong class="notification-title">Comment: </strong>-->
-                  <div class="notification-meta">
-                    <small class="timestamp">`+create_date+`</small>
-                  </div>
-                </div>
-              </div>
+          <li class="">
+            <div class="toast-header">
+                <strong class="mr-auto">Bạn có thông báo mới</strong>
+                <small>` + create_date + `</small>
+                <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                </button>
+            </div>
+            <div class="toast-body">
+            <p><strong class="notification-title">` + data[1] + `</strong> đã comment vào ticket <strong>` + data[2] + `</strong></p>
+            </div>
           </li>
         `;
             notifications.html(newNotificationHtml + existingNotifications);
@@ -383,6 +401,11 @@
             notificationsCountElem.attr('data-count', notificationsCount);
             notificationsWrapper.find('.notif-count').text(notificationsCount);
             notificationsWrapper.show();
+        });
+    </script>
+    <script>
+        $('.close').click(function(){
+            $(this).parents('.window').css('display','none');
         });
     </script>
 @endsection

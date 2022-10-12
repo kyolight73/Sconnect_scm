@@ -16,6 +16,7 @@ class PersonalAccessTokenSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('personal_access_tokens')->truncate();
         DB::table('personal_access_tokens')->insert([
             [
                 'tokenable_type' => 'facebook_user_token',

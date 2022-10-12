@@ -108,6 +108,10 @@ class GroupController extends Controller
 
             curl_close($curl);
             $group_detail = json_decode($response);
+            // dd($group_detail);
+            if (isset($group_detail->error)) {
+                return back()->with('msg', 'Xảy ra lỗi trong quá trình gọi API, hãy kiểm tra lại Access Token!');
+            }
             $group_name = $group_detail->name;
             $group_member_count = $group_detail->member_count;
 

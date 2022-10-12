@@ -21,7 +21,7 @@ class Controller extends BaseController
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->facebook_access_token = PersonalAccessToken::where('tokenable_type', 'facebook_user_token')->first()->token;
+        $this->facebook_access_token = PersonalAccessToken::where('tokenable_type', 'facebook_user_token')->first()->token ?? '';
     }
 
     public static function setCookie($name, $value, $minute)

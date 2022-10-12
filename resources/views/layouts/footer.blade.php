@@ -1,3 +1,7 @@
+@php
+use App\Models\PersonalAccessToken;
+$value = PersonalAccessToken::where('tokenable_type', 'facebook_user_token')->first()->token ?? '';
+@endphp
 </body>
 
 </html>
@@ -27,8 +31,8 @@
                     <input type="text" class="form-control " name="group_id" value="" required=""
                         autofocus="" placeholder="Nhập id group"> --}}
                     <label>Facebook Access token</label>
-                    <input type="text" class="form-control " name="facebook_access_token" value=""
-                        required="" autofocus="" placeholder="Nhập Access token">
+                    <input type="text" class="form-control " name="facebook_access_token" required=""
+                        autofocus="" placeholder="Nhập Access token" value="{{ $value }}">
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">

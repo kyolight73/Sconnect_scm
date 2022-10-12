@@ -459,8 +459,8 @@ class ShortlinkController extends Controller
     public function shortlink_insight(Request $rq)
     {
         // $user_name = DB::select(DB::raw('SELECT DISTINCT shortlink.created_by from shortlink inner join shortlink_country_temp on shortlink_country_temp.group_id = shortlink.guid'));
-
-        $group_id = $rq->group_id ?? ShortlinkCountryTemp::select('group_id')->orderBy('click_count', 'DESC')->first()->group_id;
+        $get_group_id = ShortlinkCountryTemp::select('group_id')->orderBy('click_count', 'DESC')->where('click_count', '69696969696969')->first()->group_id ?? '';
+        $group_id = $rq->group_id ?? $get_group_id;
         $select_group_id = Shortlink::select('created_by', 'access_token', 'guid')->distinct()->get();
         $limit = $rq->limit ?? 15;
         $filter = $rq->filter ?? 'desc';

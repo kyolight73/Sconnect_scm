@@ -59,6 +59,9 @@ class FanpageController extends Controller
 
         curl_close($curl);
         $all_pages = json_decode($response);
+        if (empty($all_pages->data)) {
+            return back()->with('msg', 'Xảy ra lỗi trong quá trình gọi API, hãy kiểm tra lại Access Token!');
+        }
         foreach ($all_pages->data as $add) {
 
             $curl = curl_init();
